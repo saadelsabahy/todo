@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import Content from './components/content';
 import Footer from './components/footer';
 import Header from './components/header';
 import { RootContainer } from './components/rootContainer';
@@ -14,6 +15,7 @@ function App() {
 		<ThemeProvider theme={theme === 'light' ? Colors.light : Colors.dark}>
 			<RootContainer>
 				<Header />
+				<Content />
 				<Footer />
 			</RootContainer>
 		</ThemeProvider>
