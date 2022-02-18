@@ -9,6 +9,7 @@ const TodoItem = styled.div`
 	background-color: ${(props) => props.theme.surface};
 	color: ${(props) => props.theme.text1};
 	padding: 1em;
+	border-radius: 1em;
 	:not(:last-child) {
 		margin-bottom: 1em;
 	}

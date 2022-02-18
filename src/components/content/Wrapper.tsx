@@ -24,8 +24,11 @@ export const AddButton = styled(PlusCircleFill).attrs({
 	size: '45',
 })`
 	position: absolute;
-	top: calc(3% + ${PlusCircleFillDimensions.height / 2}px);
+	/* top: calc(3% + ${PlusCircleFillDimensions.height / 2}px);
 	left: 50%;
+	right: calc(50% - ${PlusCircleFillDimensions.width / 2}px); */
+	top: calc(3% + ${PlusCircleFillDimensions.height / 2}px);
+	left: calc(50% - ${PlusCircleFillDimensions.width}px);
 	margin: 1em 0;
 	cursor: pointer;
 	color: ${(props) => props.theme.text1};
