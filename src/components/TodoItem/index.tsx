@@ -1,22 +1,28 @@
 import { EditOutline } from '@styled-icons/evaicons-outline/EditOutline';
 import { DeleteBin7 } from '@styled-icons/remix-line/DeleteBin7';
 import React from 'react';
+import { useAppDispatch } from '../../hooks';
+import { deleteToDo } from '../../redux/slices/todo.slice';
+import { TodoState } from '../../types';
 import { IconsContainer } from '../footer/Footer';
 import Todo, { TodoName } from './TodoItem';
-type Props = {};
+type Props = {
+	name: string;
+	id: string;
+	state: TodoState;
+};
 
-const ToDoItem = (props: Props) => {
+const ToDoItem = ({ name, id, state }: Props) => {
+	const dispatch = useAppDispatch();
+	const onDeletePressed = () => {
+		dispatch(deleteToDo(id));
+	};
 	return (
 		<Todo>
-			<TodoName>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint sequi
-				facilis fuga possimus eos aperiam. Ipsum nisi reprehenderit maxime
-				corporis perferendis voluptates quos tenetur? Quae fuga laudantium
-				commodi amet libero.
-			</TodoName>
+			<TodoName>{name}</TodoName>
 			<IconsContainer>
 				<EditOutline size='25' />
-				<DeleteBin7 size='25' />
+				<DeleteBin7 size='25' onClick={onDeletePressed} />
 			</IconsContainer>
 		</Todo>
 	);

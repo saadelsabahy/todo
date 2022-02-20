@@ -1,5 +1,6 @@
 import React from 'react';
 import { default as Modal, default as ReactModal } from 'react-modal';
+import './index.css';
 interface Props extends ReactModal.Props {}
 
 const customStyles: ReactModal.Styles = {
@@ -8,8 +9,11 @@ const customStyles: ReactModal.Styles = {
 		left: '50%',
 		right: 'auto',
 		bottom: 'auto',
-
 		transform: 'translate(-50%, -50%)',
+		border: 'null',
+		background: 'null',
+		borderRadius: 'null',
+		padding: 'null',
 	},
 	overlay: {
 		background: 'rgba(0,0,0,.4)',
