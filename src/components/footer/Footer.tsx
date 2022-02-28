@@ -10,7 +10,11 @@ const Footer = styled(Container)`
 	text-transform: capitalize;
 `;
 
-export const CopyRight = styled.h4``;
+export const CopyRight = styled.h4`
+	@media (max-width: 600px) {
+		margin-right: 1em;
+	}
+`;
 export const IconsContainer = styled.div`
 	display: flex;
 	justify-content: center;
