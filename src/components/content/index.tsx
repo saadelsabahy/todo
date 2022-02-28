@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeTodoState } from '../../redux/slices/todo.slice';
+import { changeTodoState, toggleModal } from '../../redux/slices/todo.slice';
 import { ITodo } from '../../types';
 import CreateForm from '../CreateForm';
 import CustomModal from '../Modal';
@@ -11,16 +11,15 @@ import Wrapper, { AddButton, ListName } from './Wrapper';
 type Props = {};
 
 const Content = (props: Props) => {
-	const [modalIsOpen, setIsOpen] = React.useState(false);
 	const [name, setName] = useState<string>('');
-	const { todos, editMode } = useAppSelector((state) => state.todoSlice);
+	const { todos, modalIsOpen } = useAppSelector((state) => state.todoSlice);
 	const dispatch = useAppDispatch();
 	const openModal = () => {
-		setIsOpen(true);
+		dispatch(toggleModal());
 	};
 
 	function closeModal() {
-		setIsOpen(false);
+		dispatch(toggleModal());
 	}
 	// type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
@@ -55,10 +54,7 @@ const Content = (props: Props) => {
 	return (
 		<>
 			<AddButton onClick={openModal} />
-			<CustomModal
-				isOpen={modalIsOpen || editMode}
-				onRequestClose={closeModal}
-			>
+			<CustomModal isOpen={modalIsOpen} onRequestClose={closeModal}>
 				<CreateForm
 					onCloseModal={closeModal}
 					title={'create todo'}

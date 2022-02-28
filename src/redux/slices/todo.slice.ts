@@ -7,6 +7,7 @@ const initialState: ITodoState = {
 	todos: { inProgress: [], done: [], todo: [] },
 	editMode: false,
 	editedItem: undefined,
+	modalIsOpen: false,
 };
 type changeTodoPayload = {
 	item: ITodo | undefined;
@@ -52,6 +53,7 @@ const todoSlice = createSlice({
 		},
 		editTodo: (state, { payload }: PayloadAction<toDoItemProps>) => {
 			state.editMode = true;
+			state.modalIsOpen = true;
 			state.editedItem = { ...payload };
 		},
 		submitUpdatedTodo: (state, action: PayloadAction<string>) => {
@@ -59,7 +61,11 @@ const todoSlice = createSlice({
 				state?.editedItem?.index as number
 			].name = action.payload;
 			state.editMode = false;
+			state.modalIsOpen = false;
 			state.editedItem = undefined;
+		},
+		toggleModal: (state) => {
+			state.modalIsOpen = !state.modalIsOpen;
 		},
 	},
 });
@@ -69,5 +75,6 @@ export const {
 	changeTodoState,
 	editTodo,
 	submitUpdatedTodo,
+	toggleModal,
 } = todoSlice.actions;
 export default todoSlice.reducer;
