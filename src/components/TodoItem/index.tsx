@@ -4,15 +4,9 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useAppDispatch } from '../../hooks';
 import { deleteToDo, editTodo } from '../../redux/slices/todo.slice';
-import { TDroppableId } from '../../types';
+import { TDroppableId, toDoItemProps } from '../../types';
 import { IconsContainer } from '../footer/Footer';
 import Todo, { TodoName } from './TodoItem';
-export type toDoItemProps = {
-	name: string;
-	id: string;
-	index: number;
-	droppableId: TDroppableId;
-};
 
 const ToDoItem = ({ name, id, index, droppableId }: toDoItemProps) => {
 	const dispatch = useAppDispatch();

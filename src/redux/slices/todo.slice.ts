@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 } from 'uuid';
-import { toDoItemProps } from '../../components/TodoItem';
-import { ITodo, ITodoState, TDroppableId } from '../../types';
+import { ITodo, ITodoState, TDroppableId, toDoItemProps } from '../../types';
 
 const initialState: ITodoState = {
 	todos: { inProgress: [], done: [], todo: [] },
@@ -51,12 +50,7 @@ const todoSlice = createSlice({
 				item
 			);
 		},
-		editTodo: (
-			state,
-			{
-				payload,
-			}: PayloadAction<toDoItemProps & { droppableId: TDroppableId }>
-		) => {
+		editTodo: (state, { payload }: PayloadAction<toDoItemProps>) => {
 			state.editMode = true;
 			state.editedItem = { ...payload };
 		},
