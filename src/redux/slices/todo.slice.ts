@@ -6,7 +6,7 @@ import { ITodo, ITodoState, TDroppableId, toDoItemProps } from '../../types';
 const initialState: ITodoState = {
 	todos: { inProgress: [], done: [], todo: [] },
 	editMode: false,
-	editedItem: {},
+	editedItem: undefined,
 };
 type changeTodoPayload = {
 	item: ITodo | undefined;
@@ -55,11 +55,11 @@ const todoSlice = createSlice({
 			state.editedItem = { ...payload };
 		},
 		submitUpdatedTodo: (state, action: PayloadAction<string>) => {
-			state.todos[state.editedItem.droppableId][
-				state.editedItem.index
+			state.todos[state?.editedItem?.droppableId as TDroppableId][
+				state?.editedItem?.index as number
 			].name = action.payload;
 			state.editMode = false;
-			state.editedItem = {};
+			state.editedItem = undefined;
 		},
 	},
 });

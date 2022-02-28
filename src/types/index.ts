@@ -15,7 +15,7 @@ export type toDoItemProps = {
 export interface ITodoState {
 	todos: { inProgress: ITodo[]; done: ITodo[]; todo: ITodo[] };
 	editMode: boolean;
-	editedItem: toDoItemProps | {};
+	editedItem: toDoItemProps | undefined;
 }
 
 export type IOnDragEnd = {
