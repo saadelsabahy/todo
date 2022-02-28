@@ -23,3 +23,12 @@ export type IOnDragEnd = {
 	destination: { droppableId: TDroppableId; index: number };
 	source: { droppableId: TDroppableId; index: number };
 };
+
+export interface DropResultItem {
+	droppableId: TDroppableId;
+	index: number;
+}
+export interface IonDrag {
+	source: DropResultItem;
+	destination: DropResultItem;
+}

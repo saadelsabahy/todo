@@ -29,7 +29,7 @@ const CreateForm = ({
 	const dispatch = useAppDispatch();
 	const { editMode, editedItem } = useAppSelector((state) => state.todoSlice);
 	const onSubmitForm = () => {
-		dispatch(createToDo(inputRef?.current.value));
+		dispatch(createToDo(inputRef.current!.value));
 
 		if (inputRef.current) {
 			inputRef.current.value = '';
@@ -37,11 +37,11 @@ const CreateForm = ({
 		onCloseModal();
 	};
 	const onSubmitUpdatedTodo = () => {
-		dispatch(submitUpdatedTodo(inputRef?.current.value));
+		dispatch(submitUpdatedTodo(inputRef.current!.value));
 	};
 	useEffect(() => {
 		if (inputRef.current && editMode) {
-			inputRef.current.value = editedItem?.name;
+			inputRef.current!.value = editedItem!.name;
 		}
 		return () => {};
 	}, [editMode, editedItem]);

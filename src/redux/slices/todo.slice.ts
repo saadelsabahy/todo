@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DropResult } from 'react-beautiful-dnd';
 import { v4 } from 'uuid';
-import { ITodo, ITodoState, TDroppableId, toDoItemProps } from '../../types';
+import {
+	IonDrag,
+	ITodo,
+	ITodoState,
+	TDroppableId,
+	toDoItemProps,
+} from '../../types';
 
 const initialState: ITodoState = {
 	todos: { inProgress: [], done: [], todo: [] },
@@ -10,8 +16,8 @@ const initialState: ITodoState = {
 	modalIsOpen: false,
 };
 type changeTodoPayload = {
-	item: ITodo | undefined;
-} & Pick<DropResult, 'destination' | 'source'>;
+	item: ITodo;
+} & IonDrag;
 type DeleteItemPayloadType = {
 	id: string;
 	droppableId: TDroppableId;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeTodoState, toggleModal } from '../../redux/slices/todo.slice';
-import { ITodo } from '../../types';
+import { IonDrag, ITodo } from '../../types';
 import CreateForm from '../CreateForm';
 import CustomModal from '../Modal';
 import TodoItem from '../TodoItem';
@@ -23,10 +23,7 @@ const Content = (props: Props) => {
 	}
 	// type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
-	const onDragEnd = ({
-		destination,
-		source,
-	}: Pick<DropResult, 'destination' | 'source'>) => {
+	const onDragEnd = ({ destination, source }: IonDrag) => {
 		if (!destination) {
 			// console.log('not dropped in droppable area');
 			return;
@@ -40,7 +37,7 @@ const Content = (props: Props) => {
 		}
 		const item = todos[source.droppableId].find(
 			(_: ITodo, dx: number) => dx === source.index
-		);
+		)!;
 		//console.log({ item });
 
 		dispatch(
@@ -61,6 +58,7 @@ const Content = (props: Props) => {
 					//editMode={true}
 				/>
 			</CustomModal>
+			{/* @ts-ignore: Unreachable code error */}
 			<DragDropContext onDragEnd={onDragEnd}>
 				<Wrapper>
 					<Droppable droppableId={'todo'}>
