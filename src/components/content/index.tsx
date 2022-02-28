@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeTodoState } from '../../redux/slices/todo.slice';
+import { ITodo } from '../../types';
 import CreateForm from '../CreateForm';
 import CustomModal from '../Modal';
 import TodoItem from '../TodoItem';
@@ -22,6 +23,7 @@ const Content = (props: Props) => {
 		setIsOpen(false);
 	}
 	// type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
+
 	const onDragEnd = ({
 		destination,
 		source,
@@ -38,7 +40,7 @@ const Content = (props: Props) => {
 			return;
 		}
 		const item = todos[source.droppableId].find(
-			(_, dx: number) => dx === source.index
+			(_: ITodo, dx: number) => dx === source.index
 		);
 		//console.log({ item });
 
