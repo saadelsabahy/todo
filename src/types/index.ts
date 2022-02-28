@@ -6,10 +6,12 @@ export interface ITodo {
 	name: string;
 }
 export interface ITodoState {
-	todos: { inProgress: ITodo[]; done: ITodo[]; todo: ITodo[] };	editMode:boolean,editedItem:ITodo|{}
+	todos: { inProgress: ITodo[]; done: ITodo[]; todo: ITodo[] };
+	editMode: boolean;
+	editedItem: ITodo | {};
 }
 
-export type IOnDragEnd {
+export type IOnDragEnd = {
 	destination: { droppableId: TDroppableId; index: number };
 	source: { droppableId: TDroppableId; index: number };
-}
+};
