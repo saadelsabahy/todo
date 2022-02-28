@@ -1,35 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { DropResult } from 'react-beautiful-dnd';
 import { v4 } from 'uuid';
-import { ITodoState, TodoState } from '../../types';
+import { toDoItemProps } from '../../components/TodoItem';
+import { ITodo, ITodoState, TDroppableId } from '../../types';
 
 const initialState: ITodoState = {
-	todos: [
-		{
-			id: v4(),
-			name: 'first todo',
-			state: TodoState.NEW,
-		},
-		{
-			id: v4(),
-			name: 'second todo',
-			state: TodoState.INPROGRESS,
-		},
-		{
-			id: v4(),
-			name: 'third todo',
-			state: TodoState.INPROGRESS,
-		},
-		{
-			id: v4(),
-			name: 'fourth todo',
-			state: TodoState.DONE,
-		},
-		{
-			id: v4(),
-			name: 'fifth todo',
-			state: TodoState.NEW,
-		},
-	],
+	todos: { inProgress: [], done: [], todo: [] },
+	editMode: false,
+	editedItem: {},
+};
+type changeTodoPayload = {
+	item: ITodo | undefined;
+} & Pick<DropResult, 'destination' | 'source'>;
+type DeleteItemPayloadType = {
+	id: string;
+	droppableId: TDroppableId;
 };
 const todoSlice = createSlice({
 	name: 'todo',
@@ -37,18 +22,58 @@ const todoSlice = createSlice({
 	reducers: {
 		createToDo: (state, action: PayloadAction<string>) => {
 			console.log(action.payload);
-			state.todos.push({
+			state.todos.todo.push({
 				name: action.payload,
 				id: v4(),
-				state: TodoState.NEW,
 			});
 		},
-		deleteToDo: (state, action: PayloadAction<string>) => {
-			console.log({ delete: action.payload });
+		deleteToDo: (
+			state,
+			{ payload: { droppableId, id } }: PayloadAction<DeleteItemPayloadType>
+		) => {
+			console.log(droppableId, id);
 
-			state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+			state.todos[droppableId] = state.todos[droppableId].filter(
+				(todo) => todo.id !== id
+			);
+		},
+		changeTodoState: (
+			state,
+			{
+				payload: { destination, source, item },
+			}: PayloadAction<changeTodoPayload>
+		) => {
+			state.todos[source.droppableId].splice(source.index, 1);
+
+			state.todos[destination.droppableId].splice(
+				destination.index,
+				0,
+				item
+			);
+		},
+		editTodo: (
+			state,
+			{
+				payload,
+			}: PayloadAction<toDoItemProps & { droppableId: TDroppableId }>
+		) => {
+			state.editMode = true;
+			state.editedItem = { ...payload };
+		},
+		submitUpdatedTodo: (state, action: PayloadAction<string>) => {
+			state.todos[state.editedItem.droppableId][
+				state.editedItem.index
+			].name = action.payload;
+			state.editMode = false;
+			state.editedItem = {};
 		},
 	},
 });
-export const { createToDo, deleteToDo } = todoSlice.actions;
+export const {
+	createToDo,
+	deleteToDo,
+	changeTodoState,
+	editTodo,
+	submitUpdatedTodo,
+} = todoSlice.actions;
 export default todoSlice.reducer;

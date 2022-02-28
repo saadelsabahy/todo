@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { useAppDispatch } from '../../hooks';
-import { createToDo } from '../../redux/slices/todo.slice';
+import React, { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { createToDo, submitUpdatedTodo } from '../../redux/slices/todo.slice';
 import {
 	ButtonsContainer,
 	CloseIcon,
@@ -24,10 +24,10 @@ const CreateForm = ({
 	onCloseModal,
 	//onSubmitForm,
 	title,
-	editMode,
 }: Props) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const dispatch = useAppDispatch();
+	const { editMode, editedItem } = useAppSelector((state) => state.todoSlice);
 	const onSubmitForm = () => {
 		dispatch(createToDo(inputRef?.current.value));
 
@@ -36,6 +36,18 @@ const CreateForm = ({
 		}
 		onCloseModal();
 	};
+	const onSubmitUpdatedTodo = () => {
+		dispatch(submitUpdatedTodo(inputRef?.current.value));
+	};
+	useEffect(() => {
+		if (inputRef.current && editMode) {
+			inputRef.current.value = editedItem?.name;
+		}
+		return () => {};
+	}, [editMode, editedItem]);
+
+	console.log({ editMode });
+
 	return (
 		<CreateFormContainer>
 			<FormSection>
@@ -54,7 +66,7 @@ const CreateForm = ({
 			<ButtonsContainer>
 				<button
 					children={editMode ? 'update' : 'submit'}
-					onClick={onSubmitForm}
+					onClick={editMode ? onSubmitUpdatedTodo : onSubmitForm}
 				/>
 				<button onClick={onCloseModal}>cancel</button>
 			</ButtonsContainer>

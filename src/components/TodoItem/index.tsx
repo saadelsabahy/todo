@@ -1,30 +1,45 @@
 import { EditOutline } from '@styled-icons/evaicons-outline/EditOutline';
 import { DeleteBin7 } from '@styled-icons/remix-line/DeleteBin7';
 import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { useAppDispatch } from '../../hooks';
-import { deleteToDo } from '../../redux/slices/todo.slice';
-import { TodoState } from '../../types';
+import { deleteToDo, editTodo } from '../../redux/slices/todo.slice';
+import { TDroppableId } from '../../types';
 import { IconsContainer } from '../footer/Footer';
 import Todo, { TodoName } from './TodoItem';
-type Props = {
+export type toDoItemProps = {
 	name: string;
 	id: string;
-	state: TodoState;
+	index: number;
+	droppableId: TDroppableId;
 };
 
-const ToDoItem = ({ name, id, state }: Props) => {
+const ToDoItem = ({ name, id, index, droppableId }: toDoItemProps) => {
 	const dispatch = useAppDispatch();
 	const onDeletePressed = () => {
-		dispatch(deleteToDo(id));
+		dispatch(deleteToDo({ id, droppableId }));
+	};
+	const OnEditPress = () => {
+		dispatch(editTodo({ name, id, index, droppableId }));
 	};
 	return (
-		<Todo>
-			<TodoName>{name}</TodoName>
-			<IconsContainer>
-				<EditOutline size='25' />
-				<DeleteBin7 size='25' onClick={onDeletePressed} />
-			</IconsContainer>
-		</Todo>
+		<Draggable key={id} index={index} draggableId={id.toString()}>
+			{(provided, snapshot) => {
+				return (
+					<Todo
+						ref={provided.innerRef}
+						{...provided.draggableProps}
+						{...provided.dragHandleProps}
+					>
+						<TodoName>{name}</TodoName>
+						<IconsContainer>
+							<EditOutline size='25' onClick={OnEditPress} />
+							<DeleteBin7 size='25' onClick={onDeletePressed} />
+						</IconsContainer>
+					</Todo>
+				);
+			}}
+		</Draggable>
 	);
 };
 
